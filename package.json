@@ -1,0 +1,17 @@
+{
+  "name": "car-rental-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "live-server ./src"
+  },
+  "author": "Luke Fordham",
+  "license": "ISC",
+  "dependencies": {
+    "animejs": "^3.2.0",
+    "live-server": "1.2.1",
+    "mustache": "^4.0.1"
+  },
+  "keywords": []
+}

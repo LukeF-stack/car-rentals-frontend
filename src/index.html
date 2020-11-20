@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>car Rentals App</title>
+    <link rel="stylesheet" href="dist/style.css" />
+    <script src="https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.js"></script>
+    <!--mapbox API script-->
+    <link
+      href="https://api.mapbox.com/mapbox.js/v3.3.1/mapbox.css"
+      rel="stylesheet"
+    />
+    <!--fonts-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="https://unpkg.com/mustache@latest"></script>
+    <!-- <script src='node_modules/mustache/mustache.min.js'></script> -->
+    <script src="index.js" type="module"></script>
+
+    <!-- Homepage Template-->
+    <script type="text/template" id="template-page-home">
+      <section id="home-hero-section">
+          <header class="page-header">
+              <nav id="main-nav"></nav>
+          </header>
+          <main class="page-content">
+              <div class="hero">
+                  <div class="wrapper">
+                      <h1 id="home-title">Search our fleet<br>We have a car for every situation</h1>
+                      <button class="test-notification-btn button">Test Notification</button>
+                      <div class="filters-bar"></div>
+                      <div class="find-car-btn" >
+                          <a id="find-car-button-anchor" href="#cars">Find a car!</a>
+                      </div>
+                  </div>
+              </div>
+          </main>
+      </section>
+      <section id="home-after-fold">
+          <h1 id="home-title-2">It’s as easy as 1-2-3</h1>
+          <div class="home-icons">
+              <div class="icon">
+                  <div id="first-step" class="number-icon"><h2>1</h2></div>
+                  <h2 class="icon-label">Search our range</h2>
+                  <p>We have an extensive range to choose from.</p>
+              </div>
+              <div class="icon">
+                  <div id="second-step" class="number-icon"><h2>2</h2></div>
+                  <h2 class="icon-label">Select the best car</h2>
+                  <p>Which car in our fleet suits your needs the best?</p>
+              </div>
+              <div class="icon">
+                  <div id="third-step" class="number-icon"><h2>3</h2></div>
+                  <h2 class="icon-label">Reserve your car</h2>
+                  <p>Reserve your chosen car to guarantee availability.</p>
+              </div>
+          </div>
+          <footer>
+              <div id="terms-and-conditions">
+                  <h3>Terms & Conditions</h3>
+                  <p class="footer-notes">
+                      This website has been created as part of an assignment in an approved course of study
+                      for Curtin University and contains copyright material not created by the author. All copyright material used remains
+                      copyright of the respective owners and has been used here pursuant to Section 40 of the Copyright Act 1968
+                      (Commonwealth of Australia). No part of this work may be reproduced without consent of the original copyright owners.
+                  </p>
+              </div>
+              <div class="social">
+                  <div>
+                      <a href="https://facebook.com"  class="social-icon">
+                          <img src="/images/fb.png" alt="Facebook Icon">
+                      </a>
+                  </div>
+                  <div>
+                      <a href="https://twitter.com"  class="social-icon">
+                          <img src="/images/tw.png" alt="Twitter Icon">
+                      </a>
+                  </div>
+                  <div>
+                      <a href="https://instagram.com"  class="social-icon">
+                          <img src="/images/ig.png" alt="Instagram Icon">
+                      </a>
+                  </div>
+              </div>
+          </footer>
+      </section>
+    </script>
+
+    <!-- Cars Page Template-->
+    <script type="text/template" id="template-page-cars">
+      <section id="car-results-section">
+          <header class="page-header">
+              <nav id="main-nav"></nav>
+          </header>
+          <div class="page-container">
+              <main class="page-content">
+                  <h3 class="search-results-title">{{intro}}</h3>
+                  <div id="car-results-filters"></div>
+                  <div id="car-results"></div>
+              </main>
+          </div>
+      </section>
+    </script>
+
+    <!-- Reviews Page Template-->
+    <script type="text/template" id="template-page-reviews">
+      <section id="review-results-section">
+          <header class="page-header">
+              <nav id="main-nav"></nav>
+          </header>
+          <div class="page-container">
+              <main class="page-content">
+                  <h3 class="search-results-title">{{intro}}</h3>
+                  <div id="review-results"></div>
+              </main>
+          </div>
+      </section>
+    </script>
+
+    <!-- userProfile Template-->
+    <script type="text/template" id="template-page-userProfile">
+      <section>
+          <header class="page-header">
+              <nav id="main-nav"></nav>
+          </header>
+          <div class="page-container">
+              <main class="page-content account-container">
+                  <h1>My Account</h1>
+                  <h5>First Name:</h5><p>{{ firstname }}</p>
+                  <h5>Last Name:</h5><p>{{ lastname }}</p>
+                  <h5>Email:</h5><p>{{ email }}</p>
+              </main>
+          </div>
+      </section>
+    </script>
+
+    <!-- Contact Template-->
+    <script type="text/template" id="template-page-contact">
+      <section>
+          <header class="page-header">
+              <nav id="main-nav"></nav>
+          </header>
+          <div class="page-container">
+              <main class="page-content">
+                  <h1 class="page-title form-title">Contact Us</h1>
+                  <div class="form-wrapper">
+                  <form action="" method="post" id="form-contact" class="inline-form">
+                      <div class="field">
+                          <input type="text" name="name" placeholder="Contact Name" class="input">
+                      </div>
+                      <div class="field">
+                          <input type="email" name="email" placeholder="Email Address" class="input">
+                      </div>
+                      <div class="field">
+                          <textarea type="text" name="body" placeholder="How can we help you?" class="input-large" maxlength="500"></textarea>
+                      </div>
+                      <div class="submit">
+                          <input type="submit" value="Submit" class="button submit-btn">
+                      </div>
+                  </form>
+                  </div>
+              </main>
+          </div>
+      </section>
+    </script>
+
+    <!-- Location Template-->
+    <script type="text/template" id="template-page-location">
+      <section>
+          <header class="page-header">
+              <nav id="main-nav"></nav>
+          </header>
+          <div class="page-container">
+              <main class="location-page-content">
+                  <h1 class="page-title">Find us here</h1>
+                  <div class="location-body">
+                      <p>{{intro}}</p>
+                  </div>
+                  <div id="map"></div>
+              </main>
+          </div>
+      </section>
+    </script>
+
+    <!-- Signup Page Template-->
+    <script type="text/template" id="template-page-signup">
+      <section>
+          <header class="page-header">
+              <nav id="main-nav"></nav>
+          </header>
+          <div class="page-container">
+              <main class="page-content">
+                  <h1 class="page-title form-title">Create an Account</h1>
+                  <div class="form-wrapper">
+                  <form action="" method="post" id="form-sign-up" class="inline-form">
+                      <div class="field">
+                          <input type="text" name="first_name" placeholder="First Name" class="input">
+                      </div>
+                      <div class="field">
+                          <input type="text" name="last_name" placeholder="Last Name" class="input">
+                      </div>
+                      <div class="field">
+                          <input type="email" name="email" placeholder="Email Address" class="input">
+                      </div>
+                      <div class="field">
+                          <input type="password" name="password" placeholder="Password" class="input">
+                      </div>
+                      <div class="submit">
+                          <input type="submit" value="Sign up" class="button submit-btn">
+                      </div>
+                  </form>
+                  <a class ="link" href="#login">Already have an account? Log in here</a>
+                  </div>
+              </main>
+          </div>
+      </section>
+    </script>
+
+    <!-- Login Template-->
+    <script type="text/template" id="template-page-login">
+      <section>
+          <header class="page-header">
+              <nav id="main-nav"></nav>
+          </header>
+          <div class="page-container">
+
+                  <h1 class="page-title form-title">Log In</h1>
+                  <div class="form-wrapper">
+                  <form action="" method="post" id="form-sign-in" class="inline-form">
+                      <div class="field">
+                          <input type="email" name="email" placeholder="Email Address" class="input">
+                      </div>
+                      <div class="field">
+                          <input type="password" name="password" placeholder="Password" class="input">
+                      </div>
+                      <div class="submit">
+                          <input type="submit" value="Sign in" class="button submit-btn">
+                      </div>
+                  </form>
+                  <a class ="link" href="#signup">Don't have an account? Sign up here</a>
+                  </div>
+
+          </div>
+      </section>
+    </script>
+
+    <!-- 404 Page Template-->
+    <script type="text/template" id="template-page-404">
+      <section>
+          <header class="page-header">
+              <nav id="main-nav"></nav>
+          </header>
+          <div class="page-container">
+              <main class="page-content">
+                  <h1 id="error-title">404</h1>
+                  <h4 id="page-not-there">Oops...Looks like you got a little lost</h4>
+              </main>
+          </div>
+      </section>
+    </script>
+
+    <!-- Review Entry Template-->
+    <script type="text/template" id="template-review-entry">
+      <div class="content">
+          <div class="review-user-name"><h3>{{ Name }}</h3></div>
+          <p>{{ Body }}</p>
+      </div>
+    </script>
+
+    <!-- Car Entry Template-->
+    <script type="text/template" id="template-car-entry">
+      <div class="content">
+          <h4 class="title">{{ title }}</h4>
+          <div class="transmission">${{ price_per_day }} per day</div>
+          <img class="car-cover" src="{{ cover_image }}">
+          <div>
+              <a class="view-car-btn button" href="#cars?ids={{ _id }}">View Car</a>
+          </div>
+      </div>
+    </script>
+
+    <!-- selectedCar Page Template-->
+    <script type="text/template" id="template-page-selectedCar">
+      <section>
+          <header class="page-header">
+              <nav id="main-nav"></nav>
+          </header>
+          <div class="page-container-white">
+              <div class="main-content"></div>
+          </div>
+      </section>
+    </script>
+
+    <!-- selectedCar Entry Template-->
+    <script type="text/template" id="template-selectedCar-entry">
+
+      <div class="selectedCar-specs">
+          <h1 class="title">{{ title }}</h1>
+          <h2 class="specs">Model</h2>
+          <div class="model specs">{{ model }}</div>
+          <h2 class="specs">Year</h2>
+          <div class="year specs">{{ year }}</div>
+          <h2 class="specs">Body Type</h2>
+          <div class="body_type specs">{{ body_type }}</div>
+          <h2 class="specs">Number of Seats</h2>
+          <div class="seats specs">{{ seats }}</div>
+          <h2 class="specs">Transmission</h2>
+          <div class="transmission specs">{{ transmission }}</div>
+          <h2 class="specs">Drive Train</h2>
+          <div class="drive_type specs">{{ drive_type }}</div>
+          <h2 class="specs">Price</h2>
+          <div class="price_per_day specs">${{ price_per_day }}</div>
+      </div>
+      <a class="book-btn button"><h3>Book For Today</h3></a>
+      <div id="selectedCar-cover" style="background-image: {{ cover_image }}"></div>
+      <!--<img class="selectedCar-cover" src="{{ cover_image }}">-->
+    </script>
+
+    <!-- Add Review Page Template-->
+    <script type="text/template" id="template-page-add_review">
+      <section>
+          <header class="page-header">
+              <nav id="main-nav"></nav>
+          </header>
+          <div class="page-container">
+              <main class="page-content">
+                  <h1 class="page-title form-title">Add a review?</h1>
+                  <div class="form-wrapper">
+                  <form action="" method="post" id="form-add_review" class="inline-form">
+                      <div class="field">
+                          <textarea type="text" name="body" placeholder="How was your experience?" class="input-large" maxlength="250"></textarea>
+                      </div>
+                      <div class="submit">
+                          <input type="submit" value="Add Review" class="button submit-btn">
+                      </div>
+                  </form>
+                  </div>
+              </main>
+          </div>
+      </section>
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.0.1/lib/anime.min.js"></script>
+  </body>
+</html>
