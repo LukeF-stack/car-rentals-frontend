@@ -8,7 +8,7 @@ const Review = {
   // create a review using the review form data
   create: (userReview) => {
     // make post request to reviews endpoint, with the review form data
-    fetch("https://xj7u1.sse.codesandbox.io/api/reviews", {
+    fetch("https://car-rentals-backend-api.herokuapp.com/api/reviews", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userReview)
@@ -36,7 +36,9 @@ const Review = {
   getReviews: (id) => {
     return new Promise((resolve, reject) => {
       // set url to reviews endpoint
-      let url = new URL("https://xj7u1.sse.codesandbox.io/api/reviews");
+      let url = new URL(
+        "https://car-rentals-backend-api.herokuapp.com/api/reviews"
+      );
       // create url search params with the review id parameter
       url.search = new URLSearchParams(id).toString();
       // get request with specified endpoint

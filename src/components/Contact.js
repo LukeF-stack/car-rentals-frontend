@@ -8,7 +8,7 @@ const Contact = {
   // create an enquiry using the contact form data
   create: (contactForm) => {
     // make post request to API with contact form data as JSON
-    fetch("https://xj7u1.sse.codesandbox.io/api/enquiries", {
+    fetch("https://car-rentals-backend-api.herokuapp.com/api/enquiries", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(contactForm)

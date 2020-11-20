@@ -7,7 +7,7 @@ const Car = {
   // get all cars from API
   get: () => {
     return new Promise((resolve, reject) => {
-      fetch("https://xj7u1.sse.codesandbox.io/api/cars")
+      fetch("https://car-rentals-backend-api.herokuapp.com/api/cars")
         .then((res) => res.json())
         .then((cars) => {
           resolve(cars);
@@ -21,7 +21,9 @@ const Car = {
   getByIds: (ids) => {
     return new Promise((resolve, reject) => {
       // set endpoint
-      let url = new URL("https://xj7u1.sse.codesandbox.io/api/cars");
+      let url = new URL(
+        "https://car-rentals-backend-api.herokuapp.com/api/cars"
+      );
       // set query parameters to ids: requested car ids
       let params = { ids: ids };
       // create search parameters with ids parameter
@@ -45,7 +47,9 @@ const Car = {
   getWithFilters: (brand) => {
     return new Promise((resolve, reject) => {
       // set endpoint
-      let url = new URL("https://xj7u1.sse.codesandbox.io/api/cars");
+      let url = new URL(
+        "https://car-rentals-backend-api.herokuapp.com/api/cars"
+      );
       // create url search parameters with the requested brand as a parameter
       url.search = new URLSearchParams(brand).toString();
       // fetch the specified endpoint

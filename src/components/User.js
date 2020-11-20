@@ -13,7 +13,7 @@ const User = {
   // create a user using sign up form data
   create: (userData) => {
     // post request with sign up form data
-    fetch("https://xj7u1.sse.codesandbox.io/api/users", {
+    fetch("https://car-rentals-backend-api.herokuapp.com/api/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData)

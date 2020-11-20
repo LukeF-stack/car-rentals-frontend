@@ -9,7 +9,7 @@ const Auth = {
   // log in function, using the data from login form
   logIn: (userData) => {
     // make post request to API login endpoint with userData from login form
-    fetch("https://xj7u1.sse.codesandbox.io/api/auth/login", {
+    fetch("https://car-rentals-backend-api.herokuapp.com/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(userData)
@@ -49,7 +49,7 @@ const Auth = {
   check: (callback) => {
     // if the user has a token in local storage, send get request to validate endpoint with the token in req header
     if (localStorage.getItem("token")) {
-      fetch("https://xj7u1.sse.codesandbox.io/api/auth/validate", {
+      fetch("https://car-rentals-backend-api.herokuapp.com/api/auth/validate", {
         headers: { Authorization: `Bearer ${localStorage.token}` }
       })
         .then((res) => {
