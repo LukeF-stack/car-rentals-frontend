@@ -34,7 +34,7 @@ section {
   display: grid;
   width: 75vw;
   height: 70%;
-  grid-template-columns: repeat(3, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   grid-template-rows: auto;
   margin: auto;
   margin-top: 0;
